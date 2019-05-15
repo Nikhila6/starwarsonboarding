@@ -1,0 +1,35 @@
+body {
+  margin: 0;
+  background-color: black;
+}
+
+.star {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  background-color: white;
+}
+
+.intro {
+    position: center;
+    top: 45%;
+    left: 50%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
+    z-index: 1;
+    animation: intro 6s ease-out 1s;
+    color: rgb(75, 213, 238);
+    font-weight: 400;
+    font-size: 300%;
+    
+}
+
+.header {
+    background-color: black;
+    padding: 20px 229px;
+    align-self: stretch;
+    text-align: center;
+    color: yellow;
+    font-style: italic;
+    font-family: fantasy;
+}
