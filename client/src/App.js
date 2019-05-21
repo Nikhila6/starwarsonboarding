@@ -16,7 +16,7 @@ class App extends Component {
 
     this.state = {
       results: [],
-      nextUrl: "",
+      //nextUrl: "",
       isMaleloaded: false
     };
   }
@@ -24,20 +24,22 @@ class App extends Component {
    
 
   componentDidMount() {
-       this.callStarwarsApi(API + QUERY);
+       this.callStarwarsApi();
   }
 
-    callStarwarsApi(url) {
-    fetch(url)
-      .then(response => response.json())
+    callStarwarsApi() {
+    fetch('/swapi')
+      .then(res=> res.json())
       .then(data => {
-        this.setState({ results: data.results, nextUrl: data.next })
-        this.getStarwarsChar() 
-      }
+        this.setState({ results: data})
+        //this.getStarwarsChar()
+              console.log('response is ' + JSON.stringify(this.state.results))
+
+          }
       );
   }
 
-    pushStarwarsChar(results) {
+  /*  pushStarwarsChar(results) {
   console.log('loaded male ' + this.state.isMaleloaded)
     for (var i = 0; i < results.length; i++) {
       if (femaleactors.length < 5 && results[i].gender === "female") {
@@ -49,7 +51,7 @@ class App extends Component {
         maleactors.push(results[i]);
       }
     }
-  }
+  }*/
 
 
   handleClick(event) {      
@@ -57,7 +59,7 @@ class App extends Component {
     event.preventDefault()
 }
 
-    getStarwarsChar() {
+   /* getStarwarsChar() {
     console.log("hey yo");
     this.pushStarwarsChar(this.state.results);
     console.log('male ' + maleactors.length);
@@ -68,21 +70,21 @@ class App extends Component {
     else{
       this.setState({nextUrl: null})
     }
-  }
+  }*/
 
   
     render() {
    
     return (
-  <div class="App-header">
+  <div className ="App-header">
 
-<h1 class = "header"> STARWARS - May the force be with you. Always!! </h1>
+<h1 className = "header"> STARWARS - May the force be with you. Always!! </h1>
 
 
       <ul>
-        <h2 class = "App"> Female Characters  </h2>
-        {femaleactors.map(result => (
-          <li class = "intro" key={result.name}>
+        <h2 className = "App App-link"> Female Characters  </h2>
+        {this.state.results.map(result => (
+          <li className = "intro" key={result.name}>
           {result.name} -
           Height : {result.height},
           Mass : {result.mass}
@@ -93,9 +95,9 @@ class App extends Component {
     <div>
       {this.state.isMaleloaded ? (
           <ul>
-            <h2 class="App "> Male Characters </h2>
+            <h2 className="App App-link"> Male Characters </h2>
             {maleactors.map(result => (
-                <li class = "intro" key={result.name}>
+                <li className = "intro" key={result.name}>
                   {result.name} -
                   Height : {result.height},
                   Mass : {result.mass}
@@ -103,7 +105,7 @@ class App extends Component {
             ))}
           </ul>
       ) : (
-          <button class="button" onClick={e => this.handleClick(e)}> CLICK ME! </button>
+          <button className="button" onClick={e => this.handleClick(e)}> CLICK ME! </button>
       )}
     </div>
   </div>
@@ -111,7 +113,124 @@ class App extends Component {
     }
 }
 
-export default App; 
+export default App;
+
+
+
+/*import React, { Component } from 'react';
+import './App.css';
+import './starwars.css'
+
+
+const femaleactors = [];
+const maleactors = [];
+
+class App extends Component {
+    state = {
+        results: [],
+        nextUrl: "",
+        isMaleloaded: false
+    };
+
+    componentDidMount() {
+        // Call our fetch function below once the component mounts
+        this.callStarwarsApi()
+            .then(res => this.setState({ data: res.express }))
+            .then(data => {
+                this.setState({ results: data.results, nextUrl: data.next })
+                this.getStarwarsChar()
+            })
+            .catch(err => console.log(err));
+    }
+    // Fetches our GET route from the Express server. (Note the route we are fetching matches the GET route from server.js
+    callStarwarsApi = async () => {
+        const response = await fetch('/swapi');
+        const body = await response.json();
+        console.log("response is " + JSON.stringify(body));
+
+        if (response.status !== 200) {
+            throw Error(body.message)
+        }
+        return body;
+    };
+
+    pushStarwarsChar(results) {
+        console.log('loaded male ' + this.state.isMaleloaded)
+        for (var i = 0; i < results.length; i++) {
+            if (femaleactors.length < 5 && results[i].gender === "female") {
+                console.log("female char is " + results[i].name);
+                femaleactors.push(results[i]);
+            }
+            if (maleactors.length < 5 && results[i].gender === "male") {
+                console.log("male char is " + results[i].name);
+                maleactors.push(results[i]);
+            }
+        }
+    }
+
+
+    handleClick(event) {
+        this.setState({ isMaleloaded: true });
+        event.preventDefault()
+    }
+
+    getStarwarsChar() {
+        console.log("hey yo");
+        this.pushStarwarsChar(this.state.results);
+        console.log('male ' + maleactors.length);
+        console.log('female ' + femaleactors.length);
+        if(maleactors.length < 5 || femaleactors.length < 5){
+            this.callStarwarsApi(this.state.nextUrl);
+        }
+        else{
+            this.setState({nextUrl: null})
+        }
+    }
+
+
+
+    render() {
+
+        return (
+            <div className ="App-header">
+
+                <h1 className = "header"> STARWARS - May the force be with you. Always!! </h1>
+
+
+                <ul>
+                    <h2 className = "App App-link"> Female Characters  </h2>
+                    {femaleactors.map(result => (
+                        <li className = "intro" key={result.name}>
+                            {result.name} -
+                            Height : {result.height},
+                            Mass : {result.mass}
+                        </li>
+                    ))}
+                </ul>
+
+                <div>
+                    {this.state.isMaleloaded ? (
+                        <ul>
+                            <h2 className="App App-link"> Male Characters </h2>
+                            {maleactors.map(result => (
+                                <li className = "intro" key={result.name}>
+                                    {result.name} -
+                                    Height : {result.height},
+                                    Mass : {result.mass}
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <button className="button" onClick={e => this.handleClick(e)}> CLICK ME! </button>
+                    )}
+                </div>
+            </div>
+        );
+    }
+}
+
+export default App; */
+
 
 
 
