@@ -25,21 +25,26 @@ class App extends Component {
    
 
   componentDidMount() {
-       this.callStarwarsApi(API + QUERY);
+      fetch('swapi/')
+          .then(data => {data.json()
+          console.log('response is ' + JSON.stringify(data))
+          })
+
+
+
   }
 
-    callStarwarsApi(url) {
+  /*  callStarwarsApi(url) {
     fetch('swapi')
       .then(res => res.json())
-        console.log('response is ' + this.res)
       .then(data => {
         this.setState({ maleactorsfinal: data.maleactors, femaleactorsfinal: data.femaleactors })
           console.log('final male ' + this.state.maleactorsfinal);
       }
       );
-  }
+  }*/
 
-    pushStarwarsChar(results) {
+/*    pushStarwarsChar(results) {
   console.log('loaded male ' + this.state.isMaleloaded)
     for (var i = 0; i < results.length; i++) {
       if (femaleactors.length < 5 && results[i].gender === "female") {
@@ -51,7 +56,7 @@ class App extends Component {
         maleactors.push(results[i]);
       }
     }
-  }
+  }*/
 
 
   handleClick(event) {      
@@ -59,7 +64,7 @@ class App extends Component {
     event.preventDefault()
 }
 
-    getStarwarsChar() {
+  /*  getStarwarsChar() {
     console.log("hey yo");
     this.pushStarwarsChar(this.state.results);
     console.log('male ' + maleactors.length);
@@ -71,7 +76,7 @@ class App extends Component {
       this.setState({nextUrl: null})
     }
   }
-
+*/
   
     render() {
    
