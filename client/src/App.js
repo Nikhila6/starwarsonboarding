@@ -7,6 +7,7 @@ const API = 'https://swapi.co/api/';
 var QUERY = 'people/';
 const femaleactors = [];
 const maleactors = [];
+const id =1;
 
 
 
@@ -15,8 +16,8 @@ class App extends Component {
     super(props);
 
     this.state = {
-      results: [],
-      //nextUrl: "",
+        maleactorsfinal: [],
+        femaleactorsfinal: [],
       isMaleloaded: false
     };
   }
@@ -24,22 +25,21 @@ class App extends Component {
    
 
   componentDidMount() {
-       this.callStarwarsApi();
+       this.callStarwarsApi(API + QUERY);
   }
 
-    callStarwarsApi() {
-    fetch('/swapi')
-      .then(res=> res.json())
+    callStarwarsApi(url) {
+    fetch('swapi')
+      .then(res => res.json())
+        console.log('response is ' + this.res)
       .then(data => {
-        this.setState({ results: data})
-        //this.getStarwarsChar()
-              console.log('response is ' + JSON.stringify(this.state.results))
-
-          }
+        this.setState({ maleactorsfinal: data.maleactors, femaleactorsfinal: data.femaleactors })
+          console.log('final male ' + this.state.maleactorsfinal);
+      }
       );
   }
 
-  /*  pushStarwarsChar(results) {
+    pushStarwarsChar(results) {
   console.log('loaded male ' + this.state.isMaleloaded)
     for (var i = 0; i < results.length; i++) {
       if (femaleactors.length < 5 && results[i].gender === "female") {
@@ -51,7 +51,7 @@ class App extends Component {
         maleactors.push(results[i]);
       }
     }
-  }*/
+  }
 
 
   handleClick(event) {      
@@ -59,7 +59,7 @@ class App extends Component {
     event.preventDefault()
 }
 
-   /* getStarwarsChar() {
+    getStarwarsChar() {
     console.log("hey yo");
     this.pushStarwarsChar(this.state.results);
     console.log('male ' + maleactors.length);
@@ -70,7 +70,7 @@ class App extends Component {
     else{
       this.setState({nextUrl: null})
     }
-  }*/
+  }
 
   
     render() {
@@ -83,7 +83,7 @@ class App extends Component {
 
       <ul>
         <h2 className = "App App-link"> Female Characters  </h2>
-        {this.state.results.map(result => (
+        {femaleactors.map(result => (
           <li className = "intro" key={result.name}>
           {result.name} -
           Height : {result.height},
