@@ -20,8 +20,6 @@ router.get('/', (req, res, next) => {
         });
 
 
-
-
     function responseArray(response){
 
     return new Promise(function (resolve,reject) {
